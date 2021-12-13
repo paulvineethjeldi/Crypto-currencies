@@ -12,11 +12,11 @@ const SearchCoin = ({ coinInfo, error, loading }: any) => {
   }
 
   return (
-    <div>
+    <div data-testid='searchCoin'>
       <table>
         <thead style={{ fontSize: 20, fontWeight: "bold" }}>
-          {coinInfo.name}
-          <img src={coinInfo.image.small} alt={coinInfo.name}></img>
+          {coinInfo?.name}
+          <img src={coinInfo?.image?.small} alt={coinInfo?.name}></img>
         </thead>
         <tbody style={{ fontSize: 16 }}>
           <tr>
@@ -24,7 +24,7 @@ const SearchCoin = ({ coinInfo, error, loading }: any) => {
               <p>Market Rank</p>
             </td>
             <td>
-              <p>{coinInfo.market_cap_rank}</p>
+              <p>{coinInfo?.market_cap_rank}</p>
             </td>
           </tr>
           <tr>
@@ -32,7 +32,7 @@ const SearchCoin = ({ coinInfo, error, loading }: any) => {
               <p>Current Price</p>
             </td>
             <td>
-              <p>${coinInfo.market_data.current_price.aud}</p>
+              <p>${coinInfo?.market_data.current_price.aud}</p>
             </td>
           </tr>
           <tr>
@@ -40,7 +40,7 @@ const SearchCoin = ({ coinInfo, error, loading }: any) => {
               <p>Market Supply</p>
             </td>
             <td>
-              <p>{coinInfo.market_data.max_supply}</p>
+              <p>{coinInfo?.market_data.max_supply}</p>
             </td>
           </tr>
         </tbody>

@@ -1,10 +1,10 @@
-const Crypto = ({ coins, loading }: any) => {
+const Crypto = ({ coins = [], loading }: any) => {
   if (loading) {
     return <h2>Loading...</h2>;
   }
 
   return (
-    <ul className="list-group mb-4" style={{ fontSize: 18 }}>
+    <ul className="list-group mb-4" data-testid='crypto' style={{ fontSize: 18 }}>
       {coins.map((coin: any) => (
         <li key={coin.id} className="list-group-item">
           <img src={coin.image} alt={coin.name} style={{ height: 20 }} />
