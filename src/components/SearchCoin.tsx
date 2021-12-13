@@ -1,4 +1,5 @@
 const SearchCoin = ({ coinInfo, error, loading }: any) => {
+  
   if (loading) {
     return <h2>Loading...</h2>;
   }

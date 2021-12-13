@@ -6,6 +6,7 @@ import "./App.css";
 import Crypto from "./components/Crypto";
 import Pagination from "./components/Pagination";
 import SearchCoin from "./components/SearchCoin";
+import Trending from "./components/Trending";
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -15,6 +16,9 @@ function App() {
   const [coinSearch, setCoinSearch] = useState("");
   const [coinInfo, setCoinInfo] = useState();
   const [showList, setShowList] = useState(true);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showTrending, setShowTrending] = useState(false);
+  const [trendingCoins, setTrendingCoins] = useState([]);
   const [error, setError] = useState(null);
 
   // To get all coins information
@@ -49,6 +53,28 @@ function App() {
       setError(error);
     }
     setShowList(false);
+    setShowSearchResults(true);
+    setShowTrending(false);
+    setTrendingCoins([]);
+    setLoading(false);
+  };
+
+  // To get trending coins
+  const getTrendingResults = async () => {
+    setCoinSearch("");
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `https://api.coingecko.com/api/v3/search/trending`
+      );
+      setTrendingCoins(res.data);
+      setError(null);
+    } catch (error: any) {
+      setError(error);
+    }
+    setShowList(false);
+    setShowSearchResults(false);
+    setShowTrending(true);
     setLoading(false);
   };
 
@@ -83,7 +109,21 @@ function App() {
           Reset
         </Button>
       </form>
-      {!showList && (
+      <Button
+        type="button"
+        onClick={() => {
+          setCoinSearch("");
+          setTrendingCoins([]);
+          setShowList(true);
+        }}
+      >
+        Home
+      </Button>
+      <Button type="button" onClick={getTrendingResults}>
+        Trending Results
+      </Button>
+      {showTrending && <Trending trendingCoins={trendingCoins} />}
+      {showSearchResults && (
         <SearchCoin coinInfo={coinInfo} error={error} loading={loading} />
       )}
       {showList && (
