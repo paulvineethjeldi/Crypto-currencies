@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Crypto from "./components/Crypto";
+import GlobalMarket from "./components/GlobalMarket";
 import Pagination from "./components/Pagination";
 import SearchCoin from "./components/SearchCoin";
 import Trending from "./components/Trending";
@@ -18,6 +19,8 @@ function App() {
   const [showList, setShowList] = useState(true);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showTrending, setShowTrending] = useState(false);
+  const [showGlobal, setShowGlobal] = useState(false);
+  const [globalMarketData, setGlobalMarketData] = useState({});
   const [trendingCoins, setTrendingCoins] = useState([]);
   const [error, setError] = useState(null);
 
@@ -55,6 +58,7 @@ function App() {
     setShowList(false);
     setShowSearchResults(true);
     setShowTrending(false);
+    setShowGlobal(false);
     setTrendingCoins([]);
     setLoading(false);
   };
@@ -74,7 +78,26 @@ function App() {
     }
     setShowList(false);
     setShowSearchResults(false);
+    setShowGlobal(false);
     setShowTrending(true);
+    setLoading(false);
+  };
+
+  // To get Global market data
+  const getGlobalMarketData = async () => {
+    setCoinSearch("");
+    setLoading(true);
+    try {
+      const res = await axios.get(`https://api.coingecko.com/api/v3/global`);
+      setGlobalMarketData(res.data);
+      setError(null);
+    } catch (error: any) {
+      setError(error);
+    }
+    setShowList(false);
+    setShowSearchResults(false);
+    setShowGlobal(true);
+    setShowTrending(false);
     setLoading(false);
   };
 
@@ -115,6 +138,8 @@ function App() {
           setCoinSearch("");
           setTrendingCoins([]);
           setShowList(true);
+          setShowGlobal(false);
+          setShowSearchResults(false);
         }}
       >
         Home
@@ -122,6 +147,10 @@ function App() {
       <Button type="button" onClick={getTrendingResults}>
         Trending Results
       </Button>
+      <Button type="button" onClick={getGlobalMarketData}>
+        Global Market Data
+      </Button>
+      {showGlobal && <GlobalMarket globalMarketData={globalMarketData} />}
       {showTrending && <Trending trendingCoins={trendingCoins} />}
       {showSearchResults && (
         <SearchCoin coinInfo={coinInfo} error={error} loading={loading} />

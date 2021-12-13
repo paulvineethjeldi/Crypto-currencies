@@ -4,7 +4,7 @@ const Trending = ({ trendingCoins, loading }: any) => {
     }
   
     return (
-      <ul className="list-group mb-4" data-testid='crypto' style={{ fontSize: 18 }}>
+      <ul className="list-group mb-4" data-testid='trending' style={{ fontSize: 18 }}>
         {trendingCoins?.coins?.map((coin: any) => (
           <li key={coin?.item?.id} className="list-group-item">
             <img src={coin?.item?.small} alt={coin?.item?.name} style={{ height: 20 }} />
